@@ -113,7 +113,7 @@ class Item extends React.Component{
    }
         render() {
       return (
-        <div className='col-md-4' >
+        <div  >
         <img src={this.props.imageUrl} alt="No Image Available" width="75px"/> 
         <div style={{font: '25 px', fontWeight:'bold'}}>
         <h3>{this.props.name}</h3>  
@@ -140,15 +140,49 @@ class ItemList extends React.Component{
    }
     render(){
     return (
-    <div className='col-md-10'>
+    <div className='col-md-6'>
             {this.props.objects.map((item)=> 
-            <Item  className='col-md-4' key={item.id} imageUrl={item.imageUrl} id={item.id} name= {item.name} handler={this.props.handler}/>) }
+            <Item  key={item.id} imageUrl={item.imageUrl} id={item.id} name= {item.name} handler={this.props.handler}/>) }
           
         
     </div>
     )}
 }
+function Sidenav(props) {
+    
+    
+        
+      return (
+        <div id="mySidenav" className="sidenav">
+          <a href="javascript:void(0)" className="closebtn" onClick={props.close}>&times;</a>
+          <a href="#">About</a>
+          <a href="#">Services</a>
+          <a href="#">Clients</a>
+          <a href="#">Contact</a>
+        </div>
 
+         );
+    
+    
+}
+function Navbar() {
+    
+    
+        
+      return (
+        <nav className="navbar navbar-expand-sm bg-light">
+    <ul className="navbar-nav">
+    <li className="nav-item"><a className="nav-link" href="#">Home</a></li>
+          </ul>
+
+          </nav>
+
+
+         );
+    
+    
+}
+ 
 class Test extends React.Component{
     constructor(props) {
       super(props);
@@ -156,8 +190,11 @@ class Test extends React.Component{
         name : '',
         data : '',
         array : [ ],
-         count:[]
-        ,
+        sidenavStyle : {
+      fontsize: '30px',
+      cursor: 'pointer',
+    },
+        count:[],
         objects :[{name:'Batman',id:1,imageUrl:'http://www.dccomics.com/sites/default/files/styles/whos_who/public/ww_batman_588c0b6b7e2e88.03395664_589110907cb905.89801067.jpg?itok=vuUz8U8D',city:'Gotham'},
         {name:'Flash',id:2,imageUrl:'http://www.dccomics.com/sites/default/files/styles/whos_who/public/ww_flash_588c0c78096793.56539878_58911183a7a817.13114786.jpg?itok=51sOwUR9',city:'Central City'}
 ]
@@ -165,8 +202,20 @@ class Test extends React.Component{
          
         this.addToArray = this.addToArray.bind(this);
         this.pushToArray = this.pushToArray.bind(this);
+        this.openNav = this.openNav.bind(this);
+        this.closeNav = this.closeNav.bind(this);
         
     }
+   
+    openNav() {
+    document.getElementById("mySidenav").style.width = "250px";
+    document.getElementById("main").style.marginLeft = "250px";
+    }
+    closeNav() {
+    document.getElementById("mySidenav").style.width = "0px";
+    document.getElementById("main").style.marginLeft = "0px";
+    }
+    
     
     addToArray(){
         
@@ -181,8 +230,10 @@ class Test extends React.Component{
     
     render(){
     return (
-    <div className='container'>
-    
+    <div id='main' >
+    <Navbar/>        
+    <div style={this.state.sidenavStyle} onClick={this.openNav}>&#9776; open</div>        
+    <Sidenav close={this.closeNav}/>
     <ItemList objects={this.state.objects} count={this.state.count} handler={this.pushToArray}/>         
     
     <button onClick={this.addToArray}>Add to cart</button>              
